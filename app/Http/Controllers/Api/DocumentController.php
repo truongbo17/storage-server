@@ -19,7 +19,8 @@ class DocumentController extends Controller
         if (preg_match("/^https:\/\/www\.scirp\.org/", $request->referer_links) && !is_null($request->abstract)) {
             //fix site https://www.scrip.org
             $request->description = $request->abstract; //Main content
-        } elseif (is_null($request->description) && !is_null($request->abstract)) {
+        }
+        if (is_null($request->description) && !is_null($request->abstract)) {
             $request->merge([
                 'description' => $request->abstract,
                 'abstract' => null,
