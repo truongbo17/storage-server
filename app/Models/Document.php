@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use ElasticScoutDriverPlus\Searchable;
+use App\Libs\DiskPathTools\DiskPathInfo;
 
 class Document extends Model
 {
+    use Searchable;
+
     protected $fillable = [
         'title',
         'author',
@@ -19,6 +23,28 @@ class Document extends Model
     ];
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
+
+
+    protected $mapping = [
+        'properties' => [
+            'title' => [
+                'type' => 'text'
+            ],
+            'content' => [
+                'type' => 'text'
+            ],
+        ]
+    ];
+
+    public function toSearchableArray()
+    {
+        $array = [
+            'title' => $this->title,
+            'content' => DiskPathInfo::parse($this->content_file)->read()
+        ];
+
+        return $array;
+    }
 
     /**
      * The roles that belong to the Document

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\FixDocumentController;
 
@@ -27,3 +28,5 @@ Route::group([
 
 Route::get('fixdocument', [FixDocumentController::class, 'fix']); //Delete document and keyword
 Route::get('fixalldocument', [FixDocumentController::class, 'truncate_all']); //Delete all document and keyword
+
+Route::get('search', [SearchController::class, 'search']);
