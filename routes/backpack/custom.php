@@ -20,4 +20,6 @@ Route::group([
     Route::crud('user', 'UserCrudController');
     Route::crud('document', 'DocumentCrudController');
     Route::crud('keyword', 'KeywordCrudController');
+    Route::get('search', 'SearchCrudController@search');
+    Route::post('search', 'SearchCrudController@searchData')->name('search.post');
 }); // this should be the absolute last line of this file

@@ -11,8 +11,9 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         if ($request->q) {
-
-            $query = Query::matchAll();
+            $query = Query::matchPhrasePrefix()
+                ->field('title')
+                ->query($request->q);
 
             $searchResult = Document::searchQuery($query)->execute();
 
