@@ -40,7 +40,7 @@ class Document extends Model
     {
         $array = [
             'title' => $this->title,
-            'content' => DiskPathInfo::parse($this->content_file)->read()
+            'content' => $this->content_file ? DiskPathInfo::parse($this->content_file)->read() : null,
         ];
 
         return $array;

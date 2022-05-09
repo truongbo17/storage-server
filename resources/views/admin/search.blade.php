@@ -33,25 +33,25 @@
                 </div>
             </form>
         </div>
-        @if(isset($data))
+        @if(isset($highlights))
             <h2>Your search : {{$q}}</h2>
-            @foreach($data as $document)
+            @foreach($highlights as $document)
                 <div class="col-md-8 bold-labels">
                     <h2></h2>
                     <div class="card">
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-10">
-                                    {{$document->document()->content()['title']}}
+                                    {!! $document->raw()['title'][0] !!}
                                 </div>
-                                <div class="col-2">
-                                    {{$document->score()}} score
-                                </div>
+{{--                                <div class="col-2">--}}
+{{--                                    {{$document->score()}} score--}}
+{{--                                </div>--}}
                             </div>
                         </div>
                         <div class="card-body">
                             <blockquote class="blockquote mb-0">
-                                <p>{{Str::limit($document->document()->content()['content'],100,'...')}}</p>
+                                <p>{!! $document->raw()['content'][0] !!}</p>
                                 <footer class="blockquote-footer">keyword</footer>
                             </blockquote>
                         </div>

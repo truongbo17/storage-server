@@ -18,28 +18,27 @@ class SearchCrudController extends Controller
     {
         if ($request->q) {
             $q = $request->q;
-            $query = Query::matchPhrasePrefix()
-                ->field('title')
+            $query = Query::multiMatch()
+                ->fields(['title', 'content'])
                 ->query($request->q);
 
-            $searchResult = Document::searchQuery($query)->execute();
+            $searchResult = Document::searchQuery($query)
+                ->highlightRaw([
+                    "pre_tags" => ["<b>"],
+                    "post_tags" => ["</b>"],
+                    'fields' =>
+                        [
+                            'title' => ['number_of_fragments' => 0],
+                            'content' => ['number_of_fragments' => 0],
+                        ]
+                ])
+                ->execute();
             $data = $searchResult->hits();
 
-//            $highlights = $searchResult->highlights();
-//            $highlight = $highlights->first();
-//            $snippets = $highlight->snippets('title');
-//            dd($snippets);
-//            $hit = $data->first();
-
-//            $indexName = $hit->indexName();
-//            $score = $hit->score();
-//            $model = $hit->model();
-//            $document = $hit->document();
-//            $highlight = $hit->highlight();
-//            $innerHits = $hit->innerHits();
+            $highlights = $searchResult->highlights();
 
 
-            return view('admin.search', compact('data', 'q'));
+            return view('admin.search', compact('data', 'highlights', 'q'));
         }
     }
 }
