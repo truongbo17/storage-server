@@ -17,4 +17,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
   // Protect Route With Laravel Sanctum
 });
 
-Route::middleware('auth:api')->post('/documents/store', 'Api\DocumentController@store');
+
+Route::group(['middleware' => ['auth:api']], function () {
+  Route::post('/documents/store', 'Api\DocumentController@store');
+  Route::get('/documents/search', 'Api\DocumentController@search');
+  Route::get('/documents/get', 'Api\DocumentController@get');
+});

@@ -71,4 +71,21 @@ class DocumentController extends Controller
 
         return response("Upload Successful")->setStatusCode(200);
     }
+
+    public function get(Request $request)
+    {
+        $week =  Document::inRandomOrder()->limit(10)->get();
+        $month = Document::inRandomOrder()->limit(10)->get();
+        $newest = Document::inRandomOrder()->limit(10)->get();
+
+        $data = compact('week', 'month', 'newest');
+
+        return response()->json($data);
+    }
+
+    public function search(Request $request)
+    {
+        $result = Document::search($request->q)->get();
+        return response()->json($result);
+    }
 }
