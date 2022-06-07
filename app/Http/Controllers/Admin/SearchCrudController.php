@@ -37,6 +37,7 @@ class SearchCrudController extends Controller
 
             $highlights = $searchResult->highlights();
 
+            
 
             return view('admin.search', compact('data', 'highlights', 'q'));
         }
